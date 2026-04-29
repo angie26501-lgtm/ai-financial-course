@@ -1,4 +1,114 @@
+<div id="passwordGate" style="
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: linear-gradient(135deg,#16392e,#1f5b43,#c8a94b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Sans TC','Microsoft JhengHei',sans-serif;
+">
+  <div style="
+    width: 90%;
+    max-width: 420px;
+    background: rgba(255,255,255,0.94);
+    border-radius: 28px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  ">
+    <div style="font-size: 42px; margin-bottom: 12px;">🔐</div>
+    <h1 style="
+      font-size: 24px;
+      color: #16392e;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    ">馥芸財富學苑</h1>
 
+    <p style="
+      font-size: 15px;
+      color: #5b5b5b;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    ">
+      AI × 財務規劃教案頁面<br>
+      此頁面限受邀者觀看
+    </p>
+
+    <input id="passwordInput" type="password" placeholder="請輸入觀看密碼" style="
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid #d8d8d8;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 14px;
+      text-align: center;
+    ">
+
+    <button onclick="checkPassword()" style="
+      width: 100%;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg,#1f5b43,#c8a94b);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(31,91,67,0.35);
+    ">
+      進入頁面
+    </button>
+
+    <div id="passwordError" style="
+      display:none;
+      color:#b3261e;
+      font-size:14px;
+      margin-top:14px;
+    ">
+      密碼錯誤，請重新輸入
+    </div>
+
+    <p style="
+      margin-top: 22px;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.6;
+    ">
+      財顧芸｜陳芸琪<br>
+      幸福財務領航員 × AI財務建築師
+    </p>
+  </div>
+</div>
+
+<script>
+  const correctPassword = "ai0506";
+
+  function checkPassword() {
+    const input = document.getElementById("passwordInput").value;
+    const error = document.getElementById("passwordError");
+
+    if (input === correctPassword) {
+      document.getElementById("passwordGate").style.display = "none";
+      sessionStorage.setItem("courseAccess", "granted");
+    } else {
+      error.style.display = "block";
+    }
+  }
+
+  window.onload = function () {
+    if (sessionStorage.getItem("courseAccess") === "granted") {
+      document.getElementById("passwordGate").style.display = "none";
+    }
+
+    document.getElementById("passwordInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        checkPassword();
+      }
+    });
+  };
+</script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 .wrap { max-width: 680px; padding: 0 0 2rem; font-family: var(--font-sans); }
