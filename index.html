@@ -1,4 +1,20 @@
-<div id="passwordGate" style="
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>馥芸財富學苑</title>
+
+<style>
+/* ===== 全域設定 ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans TC','Microsoft JhengHei',sans-serif;
+  background: #f5f7f6;
+}
+
+/* ===== 密碼頁 ===== */
+#passwordGate {
   position: fixed;
   inset: 0;
   z-index: 99999;
@@ -6,484 +22,183 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Noto Sans TC','Microsoft JhengHei',sans-serif;
-">
-  <div style="
-    width: 90%;
-    max-width: 420px;
-    background: rgba(255,255,255,0.94);
-    border-radius: 28px;
-    padding: 36px 28px;
-    text-align: center;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
-  ">
-    <div style="font-size: 42px; margin-bottom: 12px;">🔐</div>
-    <h1 style="
-      font-size: 24px;
-      color: #16392e;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    ">馥芸財富學苑</h1>
+}
 
-    <p style="
-      font-size: 15px;
-      color: #5b5b5b;
-      line-height: 1.7;
-      margin-bottom: 24px;
-    ">
-      AI × 財務規劃教案頁面<br>
-      此頁面限受邀者觀看
-    </p>
+.login-box {
+  width: 90%;
+  max-width: 420px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 28px;
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+}
 
-    <input id="passwordInput" type="password" placeholder="請輸入觀看密碼" style="
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 16px;
-      border: 1px solid #d8d8d8;
-      font-size: 16px;
-      outline: none;
-      margin-bottom: 14px;
-      text-align: center;
-    ">
+.login-box h1 {
+  font-size: 24px;
+  color: #16392e;
+  margin-bottom: 10px;
+}
 
-    <button onclick="checkPassword()" style="
-      width: 100%;
-      padding: 14px 16px;
-      border: none;
-      border-radius: 16px;
-      background: linear-gradient(135deg,#1f5b43,#c8a94b);
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(31,91,67,0.35);
-    ">
-      進入頁面
-    </button>
+.login-box p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
 
-    <div id="passwordError" style="
-      display:none;
-      color:#b3261e;
-      font-size:14px;
-      margin-top:14px;
-    ">
-      密碼錯誤，請重新輸入
-    </div>
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+  text-align: center;
+}
 
-    <p style="
-      margin-top: 22px;
-      font-size: 12px;
-      color: #888;
-      line-height: 1.6;
-    ">
-      財顧芸｜陳芸琪<br>
-      幸福財務領航員 × AI財務建築師
-    </p>
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg,#1f5b43,#c8a94b);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ===== 主頁 ===== */
+.wrap {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.hero {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.nav-tab {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.nav-tab.active {
+  background: black;
+  color: white;
+}
+
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+.seg {
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.seg-header {
+  padding: 12px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.seg-body {
+  display:none;
+  padding: 12px;
+  background:#fafafa;
+}
+
+.seg.open .seg-body { display:block; }
+
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 密碼頁 -->
+<div id="passwordGate">
+  <div class="login-box">
+    <h1>馥芸財富學苑</h1>
+    <p>AI × 財務規劃教案頁面<br>此為專屬顧問教案頁</p>
+
+    <input id="passwordInput" type="password" placeholder="請輸入密碼">
+    <button onclick="checkPassword()">進入頁面</button>
+
+    <p id="error" style="color:red;display:none;">密碼錯誤</p>
   </div>
 </div>
 
-<script>
-  const correctPassword = "ai0506";
-
-  function checkPassword() {
-    const input = document.getElementById("passwordInput").value;
-    const error = document.getElementById("passwordError");
-
-    if (input === correctPassword) {
-      document.getElementById("passwordGate").style.display = "none";
-      sessionStorage.setItem("courseAccess", "granted");
-    } else {
-      error.style.display = "block";
-    }
-  }
-
-  window.onload = function () {
-    if (sessionStorage.getItem("courseAccess") === "granted") {
-      document.getElementById("passwordGate").style.display = "none";
-    }
-
-    document.getElementById("passwordInput").addEventListener("keydown", function(e) {
-      if (e.key === "Enter") {
-        checkPassword();
-      }
-    });
-  };
-</script>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-.wrap { max-width: 680px; padding: 0 0 2rem; font-family: var(--font-sans); }
-.hero { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1.5rem; margin-bottom: 1.5rem; border: 0.5px solid var(--color-border-tertiary); }
-.hero-tag { font-size: 11px; font-weight: 500; background: var(--color-background-info); color: var(--color-text-info); border-radius: 20px; padding: 3px 10px; display: inline-block; margin-bottom: 8px; }
-.hero-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
-.hero-sub { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
-.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 1rem; }
-.pillar { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px; text-align: center; }
-.pillar-icon { font-size: 18px; margin-bottom: 4px; }
-.pillar-label { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
-.pillar-desc { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
-.nav-tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
-.nav-tab { font-size: 12px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-secondary); cursor: pointer; }
-.nav-tab.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-.section-title { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 0.75rem; }
-.timeline { display: flex; flex-direction: column; gap: 8px; }
-.seg { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
-.seg-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; cursor: pointer; background: var(--color-background-primary); }
-.seg-header:hover { background: var(--color-background-secondary); }
-.seg-badge { font-size: 10px; font-weight: 500; border-radius: 4px; padding: 2px 7px; min-width: 44px; text-align: center; flex-shrink: 0; }
-.badge-warm { background: #fff3ee; color: #c04820; }
-.badge-blue { background: #e6f1fb; color: #185fa5; }
-.badge-green { background: #eaf3de; color: #3b6d11; }
-.badge-amber { background: #faeeda; color: #854f0b; }
-.badge-purple { background: #eeedfe; color: #534ab7; }
-.badge-new { background: #fbeaf0; color: #993556; }
-.seg-time { font-size: 11px; color: var(--color-text-secondary); flex-shrink: 0; min-width: 76px; }
-.seg-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
-.seg-mins { font-size: 11px; color: var(--color-text-secondary); margin-left: auto; flex-shrink: 0; }
-.chevron { font-size: 12px; color: var(--color-text-secondary); transition: transform 0.2s; flex-shrink: 0; }
-.seg.open .chevron { transform: rotate(180deg); }
-.seg-body { display: none; border-top: 0.5px solid var(--color-border-tertiary); padding: 14px; background: var(--color-background-secondary); }
-.seg.open .seg-body { display: block; }
-.seg-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.info-block { background: var(--color-background-primary); border-radius: var(--border-radius-md); padding: 12px; border: 0.5px solid var(--color-border-tertiary); }
-.info-block.full { grid-column: 1 / -1; }
-.info-label { font-size: 10px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-.info-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.6; }
-.info-text ul { padding-left: 14px; }
-.info-text li { margin-bottom: 4px; }
-.q-chip { display: inline-block; background: var(--color-background-info); color: var(--color-text-info); border-radius: 20px; font-size: 11px; padding: 3px 9px; margin: 2px 2px 0 0; }
-.script-box { background: #f8f6ff; border-left: 3px solid #7f77dd; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 12px; font-size: 13px; color: var(--color-text-primary); line-height: 1.8; }
-.exp-box { background: #fff8ee; border-left: 3px solid #ef9f27; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 12px; font-size: 13px; color: var(--color-text-primary); line-height: 1.7; }
-.new-tag { font-size: 10px; background: #fbeaf0; color: #993556; border-radius: 4px; padding: 1px 6px; margin-left: 4px; vertical-align: middle; }
-.tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
-.tool-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px; border: 0.5px solid var(--color-border-tertiary); }
-.tool-name { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
-.tool-desc { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; }
-.tool-warn { font-size: 11px; color: #c04820; margin-top: 4px; }
-.prompt-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; margin-bottom: 10px; }
-.prompt-num { font-size: 11px; font-weight: 500; color: var(--color-text-info); margin-bottom: 4px; }
-.prompt-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; }
-.prompt-text { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 12px; color: var(--color-text-primary); line-height: 1.6; font-family: var(--font-mono); white-space: pre-wrap; }
-.copy-btn { margin-top: 8px; font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; }
-.copy-btn:hover { background: var(--color-background-secondary); }
-.ending-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; margin-bottom: 10px; }
-.ending-type { font-size: 11px; font-weight: 500; border-radius: 4px; padding: 2px 8px; display: inline-block; margin-bottom: 8px; }
-.type-logic { background: #e6f1fb; color: #185fa5; }
-.type-warm { background: #fbeaf0; color: #993556; }
-.type-action { background: #eaf3de; color: #3b6d11; }
-.ending-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.8; }
-.key-box { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; margin-bottom: 10px; }
-.key-box-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: 8px; }
-.case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.case-item { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px; }
-.case-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; }
-.case-val { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; }
-.update-banner { background: var(--color-background-success); border: 0.5px solid var(--color-border-success); border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 1rem; font-size: 12px; color: var(--color-text-success); }
-</style>
-
+<!-- 主內容 -->
 <div class="wrap">
+
 <div class="hero">
-  <div class="hero-tag">最終完整版 ／ 已整合所有優化</div>
-  <div class="hero-title">AI × 財務規劃（人生決策課）</div>
-  <div class="hero-sub">陳芸琪｜對象：大一學生（零基礎）｜120 分鐘｜目標：用 AI 思考人生選擇，用溫度走完一生</div>
-  <div class="pillars">
-    <div class="pillar"><div class="pillar-icon">🧭</div><div class="pillar-label">人生考古題</div><div class="pillar-desc">選擇沒有標準答案</div></div>
-    <div class="pillar"><div class="pillar-icon">🏗️</div><div class="pillar-label">理財是結構</div><div class="pillar-desc">投資只是工具</div></div>
-    <div class="pillar"><div class="pillar-icon">🤖</div><div class="pillar-label">AI 是副駕</div><div class="pillar-desc">人才是方向盤</div></div>
-  </div>
+  <div class="hero-title">AI × 財務規劃</div>
+  <div>人生決策課</div>
 </div>
 
 <div class="nav-tabs">
-  <div class="nav-tab active" onclick="switchTab('timeline')">完整流程</div>
-  <div class="nav-tab" onclick="switchTab('keyteach')">關鍵段落</div>
-  <div class="nav-tab" onclick="switchTab('prompts')">AI 操作設計</div>
-  <div class="nav-tab" onclick="switchTab('endings')">結尾版本</div>
+  <div class="nav-tab active" onclick="switchTab('t1')">流程</div>
+  <div class="nav-tab" onclick="switchTab('t2')">重點</div>
 </div>
 
-<div id="tab-timeline" class="tab-content active">
-<div class="update-banner">✅ 最終版：已整合個人簡介、四工具比較、人生組合拳、資安常識、LINE@ 收尾</div>
-<div class="section-title">120 分鐘完整教學流程</div>
-<div class="timeline" id="tl"></div>
+<div id="t1" class="tab-content active">
+  <div class="seg" onclick="toggle(this)">
+    <div class="seg-header">破冰暖場</div>
+    <div class="seg-body">建立信任感、引導進入狀態</div>
+  </div>
 </div>
 
-<div id="tab-keyteach" class="tab-content">
-<div class="section-title">關鍵教學段強化</div>
-<div id="kt"></div>
+<div id="t2" class="tab-content">
+  <div class="seg" onclick="toggle(this)">
+    <div class="seg-header">理財 vs 投資</div>
+    <div class="seg-body">理財是結構，投資是工具</div>
+  </div>
 </div>
 
-<div id="tab-prompts" class="tab-content">
-<div class="section-title">AI 操作設計（學生可直接使用）</div>
-<div id="pt"></div>
-</div>
-
-<div id="tab-endings" class="tab-content">
-<div class="section-title">結尾收斂（三種版本）</div>
-<div id="en"></div>
-</div>
 </div>
 
 <script>
-function switchTab(id) {
-  document.querySelectorAll('.nav-tab').forEach((t,i) => {
-    const ids = ['timeline','keyteach','prompts','endings'];
-    t.classList.toggle('active', ids[i] === id);
-  });
-  document.querySelectorAll('.tab-content').forEach(c => {
-    c.classList.toggle('active', c.id === 'tab-' + id);
-  });
+const correctPassword = "ai0506";
+
+function checkPassword(){
+  const input = document.getElementById("passwordInput").value;
+  if(input === correctPassword){
+    document.getElementById("passwordGate").style.display = "none";
+  } else {
+    document.getElementById("error").style.display = "block";
+  }
 }
 
-const segments = [
-  {
-    time:"0:00–0:05", name:"破冰暖場：講師介紹＋你的錢去哪了？", mins:"5 分鐘", badge:"暖場", badgeCls:"badge-amber", isNew:false,
-    goal:"建立信任感，讓學生放鬆進入狀態",
-    content:["投影片播放封面，講師完整自我介紹（含18年經驗、MDRT、三張認證）","問學生：「上個月你花最多錢的是哪一類？」舉手調查","說明今天不是理財課，是人生決策課"],
-    questions:["你覺得有錢人跟沒錢人最大的差距是什麼？","你有沒有哪一筆錢花出去就後悔了？"],
-    script:"大家好，我是陳芸琪，大家可以叫我芸琪老師。我做財務規劃和保險這個領域已經 18 年了，也拿到了 RFC、RFP、RFA 國際認證，連續兩年進入 MDRT 百萬圓桌。但我不是來跟你們說這些的。我這 18 年裡，看過太多「有在賺錢，但留不住錢」的人——他們不笨，只是沒有人教他們方法。所以今天，我不是來上課的，我是來跟你們一起想清楚一件事：你的錢，你的人生，要怎麼走？",
-    exp:"舉手調查：上個月花最多的類型？講師快速點評製造氣氛，讓學生感受到今天的課跟自己有關。"
-  },
-  {
-    time:"0:05–0:20", name:"01 AI 到底能做什麼？（互動破冰）", mins:"15 分鐘", badge:"單元01", badgeCls:"badge-blue", isNew:false,
-    goal:"了解學生 AI 使用現況，引發好奇心",
-    content:["舉手調查：你有在用 AI 嗎？用來做什麼？","快速點評：ChatGPT / Gemini / NotebookLM / Claude 各有人用","轉折：「但你知道 AI 可以幫你規劃人生嗎？」","預告今天要做的 3 件事"],
-    questions:["你現在用 AI 最常做什麼？","你有沒有把 AI 用來做和錢有關的事？為什麼沒有？"],
-    script:"我想先知道一件事——你們現在誰在用 AI？（等舉手）好，用 ChatGPT 的？Gemini？NotebookLM？Claude？（分別舉手）你們用來做什麼？（點幾個人）寫報告、查資料、讓它陪你聊天……都很好。但今天我要告訴你們，AI 還可以幫你做一件更重要的事——幫你想清楚你的人生。",
-    exp:"舉手互動製造參與感。觀察各工具使用比例，後面工具介紹段落可以呼應回來。"
-  },
-  {
-    time:"0:20–0:45", name:"02 各行各業的 AI 真實應用", mins:"25 分鐘", badge:"單元02", badgeCls:"badge-blue", isNew:false,
-    goal:"讓學生看見 AI 已滲透各領域，產生危機感與好奇心",
-    content:["播放 3-4 個 AI 應用案例（財務、醫療、設計、法律）","強調：AI 取代的不是人，是『不懂 AI 的人』","帶入財務規劃場景：AI 如何做消費分析、財務建議","討論：AI 做得到 vs 做不到的事"],
-    questions:["你覺得你未來的工作會被 AI 取代嗎？","如果 AI 能幫你規劃財務，你還需要理財顧問嗎？"],
-    script:"你們知道現在有些律師事務所，已經在用 AI 審合約嗎？有些醫院用 AI 幫助診斷。那財務規劃呢？AI 也能做。但問題不是 AI 能不能做，而是——你懂不懂怎麼跟它溝通。那才是關鍵。",
-    exp:"播放真實截圖或影片，不要只說概念。讓學生看到 AI 在真實場景的輸出，製造「哇，AI 真的這麼厲害？」的感受。"
-  },
-  {
-    time:"0:45–0:50", name:"轉場預告：最重要的 30 分鐘", mins:"5 分鐘", badge:"轉場", badgeCls:"badge-amber", isNew:false,
-    goal:"製造期待感，讓學生準備好進入核心段落",
-    content:["宣布：「接下來是今天最重要的 30 分鐘」","請學生拿出手機準備操作","說明等一下要做的事（不是聽課，是實作）"],
-    questions:["你有沒有想過 10 年後的自己長什麼樣子？","你覺得自己現在最大的財務問題是什麼？"],
-    script:"好，接下來我要說一件很重要的事。前面 45 分鐘只是開胃菜。現在開始才是今天的主菜。請你拿出手機，我們要一起做三件事——而且這三件事，你今天做完就帶得走。",
-    exp:"語氣轉換，製造儀式感。請學生坐直、拿出手機，像宣布開始考試一樣。"
-  },
-  {
-    time:"0:50–1:00", name:"03a 大學生理財痛點共鳴", mins:"10 分鐘", badge:"核心03a", badgeCls:"badge-warm", isNew:false,
-    goal:"引發共鳴，讓學生感受到「這堂課是為我設計的」",
-    content:["提問：月底餘額讓你嚇到過嗎？","列出大學生常見財務困境：月光、不敢投資、不知道要存多少","強調：問題不是賺太少，是沒有結構","帶出核心觀念：理財不是賺最多，是不要出事"],
-    questions:["月底看到帳戶餘額你有什麼感覺？","你現在有在存錢嗎？你有目標金額嗎？"],
-    script:"我問你一個很私人的問題。你上個月月底，看到你的帳戶餘額的時候，你的心情是什麼？（停頓）有沒有人是……有點嚇到的？不用舉手，只要你心裡有感覺就夠了。這不是你的錯——是沒有人教你。",
-    exp:"觀察舉手比例後，給予共鳴回應。不要批評，要讓學生感覺「原來這很正常，但可以改變」。"
-  },
-  {
-    time:"1:00–1:08", name:"03b AI 理財能做的 3 件事＋理財 vs 投資", mins:"8 分鐘", badge:"核心03b", badgeCls:"badge-warm", isNew:true,
-    goal:"讓學生搞清楚 AI 的用途，以及理財與投資的根本差異",
-    content:["AI 理財能做的 3 件事：分析消費 / 試算目標 / 整理知識","用「房子結構 vs 裝潢」比喻說明理財 vs 投資","理財 = 建結構（保障、緊急備用金、現金流）","投資 = 裝潢工具（股票、基金、ETF）","案例：小明出意外，投資有賺但沒保險，最後賠更多"],
-    questions:["你覺得先存錢還是先投資？為什麼？","如果你突然失業，你現在有錢撐幾個月？"],
-    script:"AI 理財能做三件事：幫你分析消費結構、幫你試算存錢目標、幫你整理財務知識。但 AI 做不到的，是幫你建立「結構」——那是你自己要做的事。什麼是結構？我用一個比喻——你要蓋一間房子，地基、牆壁、屋頂是理財；裡面的家具、裝潢，才是投資。地基沒打好，裝潢再漂亮也沒用。很多人跳過理財直接投資，就像跳過地基直接買沙發。",
-    exp:"在白板或投影片畫出「房子結構」圖。用小明案例做收尾，讓抽象概念有故事感。"
-  },
-  {
-    time:"1:08–1:18", name:"03c 現場示範 #1：消費分析", mins:"10 分鐘", badge:"示範", badgeCls:"badge-green", isNew:false,
-    goal:"讓學生親手操作 AI，體驗 AI 幫自己分析財務的感受",
-    content:["介紹人生組合拳 Prompt 公式：背景×任務×限制×風格","投影片顯示 Prompt，學生跟著貼入 AI","2 位學生分享 AI 回應","講師點評：AI 只是鏡子，你看到的是你自己"],
-    questions:["AI 給你的建議，你覺得有道理嗎？","有沒有哪個建議讓你很驚訝或很有共鳴？"],
-    script:"好，現在拿出手機。在貼 Prompt 之前，我先教你一個萬用公式，四個 AI 工具都能用——我叫它「人生組合拳」：背景、任務、限制、風格。背景就是你是誰；任務就是你要它做什麼；限制就是不要太複雜；風格就是用說話的語氣。記住這四個，你問任何 AI 都會更精準。現在把這個 Prompt 貼進去，三分鐘後我們來看結果。",
-    exp:"巡視學生操作狀況，3 分鐘後請 1-2 位學生分享。強調 Prompt 公式四個工具通用。"
-  },
-  {
-    time:"1:18–1:25", name:"03d 22 歲 vs 30 歲的數字衝擊", mins:"7 分鐘", badge:"核心03d", badgeCls:"badge-warm", isNew:false,
-    goal:"用具體數字讓學生對時間成本產生感受",
-    content:["展示對比試算表：22歲每月存3000 vs 30歲才開始","用複利試算說明差距（差距超過 300 萬）","停頓 5 秒讓數字發酵","說明：時間是你現在最大的資產，但它每天都在消耗"],
-    questions:["如果早 8 年開始存錢，你的人生會有什麼不同？","你現在每個月能存多少？你願意嗎？"],
-    script:"我給你看一個數字。（展示試算）同樣的錢，22歲開始存跟30歲開始存，30年後差多少？差了超過 300 萬。你現在大一，大概19-20歲，你比30歲的人還早 10 年。這不是在嚇你，這是在告訴你——你現在擁有的最貴的東西，叫做「時間」。",
-    exp:"展示試算表，停頓5秒。不要急著說下一句，讓學生消化這個數字。"
-  },
-  {
-    time:"1:25–1:33", name:"03e 現場示範 #2：存錢目標規劃", mins:"8 分鐘", badge:"示範", badgeCls:"badge-green", isNew:false,
-    goal:"讓學生用 AI 幫自己設計一個真實的存錢計畫",
-    content:["學生自選目標（旅行、3C、緊急備用金）","用人生組合拳公式貼入 Prompt 操作","AI 回傳月存金額與時程規劃","1-2 位學生分享，講師點評"],
-    questions:["你設定的目標是什麼？為什麼是這個？","AI 建議的存法，你覺得做得到嗎？"],
-    script:"現在換你來設計你自己的計畫。你現在最想存錢達成的目標是什麼？不管是出國旅遊、買一台相機、還是第一桶金——記得用剛才的公式：背景、任務、限制、風格。把你的目標輸入進去，讓 AI 告訴你每個月要存多少。",
-    exp:"請1-2位學生分享，不要強迫。鼓勵其他人繼續操作，讓課室充滿操作的氛圍。"
-  },
-  {
-    time:"1:33–1:40", name:"03f AI 的限制＋資安常識", mins:"7 分鐘", badge:"核心03f", badgeCls:"badge-warm", isNew:true,
-    goal:"建立正確 AI 認知，同時帶入資安意識",
-    content:["4 件 AI 做不到的事：","1. 不了解你的家庭狀況與情感因素","2. 無法負責任：你做的決定由你承擔","3. 沒有溫度：它給的是數字，不是陪伴","4. 無法保護你的隱私（新增）","資安提醒：身分證、銀行帳號、密碼一律不要輸入 AI","結論：AI 是工具，不是答案；用 AI 做決策，用溫度走人生"],
-    questions:["你願意把你的財務決定完全交給 AI 嗎？為什麼？","你知道你貼進 AI 的對話，可能被用來訓練模型嗎？"],
-    script:"我要誠實告訴你們四件事。第一，AI 不知道你媽媽生病了、你家有房貸；第二，它不會為你的決定負責任；第三，它給你的是數字，不是陪伴。第四——這點很重要——AI 無法保護你的隱私。你的身分證字號、銀行帳號、家人的資料，一律不要貼進去。免費的工具，你的對話可能就是代價。所以記住一句話：用 AI 做決策，用溫度走人生。",
-    exp:"語氣誠實、不要背稿感。資安那點要停頓強調，讓學生記住這個習慣。"
-  },
-  {
-    time:"1:40–1:55", name:"04 四大工具介紹＋Q&A", mins:"15 分鐘", badge:"單元04", badgeCls:"badge-purple", isNew:true,
-    goal:"讓學生了解四個 AI 工具的差異，開放問題建立連結",
-    content:["ChatGPT：最多人用，像什麼都會的朋友｜注意：對話預設可能被學習","Gemini：跟 Google 連線，像會查資料的助理｜注意：注意 Google 帳號授權範圍","NotebookLM：私人讀書機器人，上傳資料幫你消化｜注意：上傳前確認無個資","Claude：邏輯最強，像嚴謹的學長姐｜注意：可在設定關閉對話訓練","小活動：同一題分別問 ChatGPT 和 Claude，比較差異","開放 Q&A：任何問題都可以問"],
-    questions:["你覺得哪個工具最適合你現在的需求？","你今天學到的什麼讓你最有感？"],
-    script:"快速說一下這四個工具——ChatGPT 是最多人用的，像一個什麼都會的朋友；Gemini 跟 Google 連線，會幫你查即時資料；NotebookLM 是你的私人讀書機器人，把課本 PDF 丟進去，它幫你整理重點；Claude 是邏輯最強的，適合做長篇分析。沒有最好的，只有最適合的。每個工具都有一個共同的注意事項——敏感的個人資料，不要輸入。好，現在開放問題，任何問題都可以問。",
-    exp:"加入小活動：同一個問題分別問兩個 AI，讓學生比較差異。Q&A 計時 8-10 分鐘，不要跳過。"
-  },
-  {
-    time:"1:55–2:00", name:"收尾：掃碼領 PDF＋行動承諾", mins:"5 分鐘", badge:"收尾", badgeCls:"badge-amber", isNew:true,
-    goal:"讓學生帶著行動承諾離開，建立後續連結",
-    content:["展示 LINE@ QR Code（財顧芸）","傳「講義」→ 自動收到今日完整講義 PDF","傳「疑難」→ 陳芸琪親自回覆財務問題","加入社群 → 持續收到 AI 理財實用 Prompt","小綠芽 APP 即將上架，掃碼登記第一時間通知","最後一問：你今天要帶走的一個行動是什麼？"],
-    questions:["你今天回去要做的第一件事是什麼？","你願不願意告訴旁邊的同學你的行動承諾？"],
-    script:"今天謝謝你們兩個小時。在你離開之前，我幫你整理好了今天所有的重點——掃這個 QR Code 加入財顧芸 LINE@，傳「講義」兩個字，完整 PDF 馬上自動傳給你。如果你有任何財務上的問題，傳「疑難」，我會親自回你。最後一個問題——你今天要帶走的一個行動是什麼？告訴旁邊的同學，說出來才算數。謝謝大家！",
-    exp:"確認大部分學生已掃碼。最後請 2-3 組學生互說行動承諾，製造儀式感結尾。"
-  }
-];
+function switchTab(id){
+  document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 
-const tlEl = document.getElementById('tl');
-segments.forEach((s,i) => {
-  const div = document.createElement('div');
-  div.className = 'seg';
-  div.innerHTML = `
-    <div class="seg-header" onclick="toggleSeg(${i})">
-      <span class="seg-badge ${s.badgeCls}">${s.badge}</span>
-      <span class="seg-time">${s.time}</span>
-      <span class="seg-name">${s.name}${s.isNew ? '<span class="new-tag">更新</span>' : ''}</span>
-      <span class="seg-mins">${s.mins}</span>
-      <span class="chevron">▾</span>
-    </div>
-    <div class="seg-body">
-      <div class="seg-body-grid">
-        <div class="info-block">
-          <div class="info-label">教學目標</div>
-          <div class="info-text">${s.goal}</div>
-        </div>
-        <div class="info-block">
-          <div class="info-label">互動提問</div>
-          <div class="info-text">${s.questions.map(q=>`<span class="q-chip">${q}</span>`).join('')}</div>
-        </div>
-        <div class="info-block full">
-          <div class="info-label">教學內容</div>
-          <div class="info-text"><ul>${s.content.map(c=>`<li>${c}</li>`).join('')}</ul></div>
-        </div>
-        <div class="info-block full">
-          <div class="info-label">🎤 講者講稿（可直接講）</div>
-          <div class="script-box">${s.script}</div>
-        </div>
-        <div class="info-block full">
-          <div class="info-label">🎯 體驗設計 / 講師行動</div>
-          <div class="exp-box">${s.exp}</div>
-        </div>
-      </div>
-    </div>`;
-  tlEl.appendChild(div);
-});
-
-function toggleSeg(i) {
-  document.querySelectorAll('.seg')[i].classList.toggle('open');
+  document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+  event.target.classList.add("active");
 }
 
-const keyTeachData = [
-  {
-    title:"理財 vs 投資：生活案例對比",
-    content:`<div class="case-grid">
-      <div class="case-item"><div class="case-label" style="color:#185fa5">理財（地基）</div><div class="case-val">緊急備用金 3-6 個月生活費<br>保險（醫療/意外/壽險）<br>固定支出管理<br>現金流控管</div></div>
-      <div class="case-item"><div class="case-label" style="color:#854f0b">投資（裝潢）</div><div class="case-val">股票 ETF 基金<br>定期定額<br>被動收入工具<br>資產配置</div></div>
-      <div class="case-item" style="grid-column:1/-1"><div class="case-label">案例：小明的故事</div><div class="case-val">小明大三開始買股票，每月投 3000 元。但有次騎車出意外，住院花了 8 萬，把股票全賣掉還不夠。原因：他有投資，但沒有理財結構（沒保險、沒緊急備用金）。</div></div>
-    </div>
-    <div class="script-box" style="margin-top:10px">理財不是要你賺最多，是讓你「不要出事」。投資是在理財架構穩固之後才做的事。就像你不會在地基沒打好之前，就去選壁紙的顏色。</div>`
-  },
-  {
-    title:"人生考古題：5 道具體題目",
-    content:`${[
-      ["考古題 1","如果你明天畢業找不到工作，你能撐幾個月？"],
-      ["考古題 2","你願意為了夢想工作，接受薪水比朋友少 1 萬嗎？"],
-      ["考古題 3","你爸媽老了，你打算怎麼照顧他們？這會影響你的財務規劃嗎？"],
-      ["考古題 4","如果你有 10 萬，你會拿去投資、旅行、還是存起來？為什麼？"],
-      ["考古題 5","你現在的生活方式，在 35 歲的時候你還過得起嗎？"]
-    ].map(([l,q])=>`<div class="case-item" style="margin-bottom:8px"><div class="case-label">${l}</div><div class="case-val">${q}</div></div>`).join('')}
-    <div class="script-box" style="margin-top:10px">這些題目沒有標準答案。我問你這些，不是要評判你，是要讓你聽到自己的聲音。因為這些答案，才是你真正的財務規劃起點。</div>`
-  },
-  {
-    title:"四大 AI 工具比較",
-    content:`<div class="tool-grid">
-      <div class="tool-card"><div class="tool-name">ChatGPT</div><div class="tool-desc">最多人用，像什麼都會的朋友。適合：寫作、腦力激盪、對話。</div><div class="tool-warn">⚠ 對話預設可能被學習</div></div>
-      <div class="tool-card"><div class="tool-name">Gemini</div><div class="tool-desc">跟 Google 連線，像會查資料的助理。適合：查時事、整合 Google 資料。</div><div class="tool-warn">⚠ 注意 Google 帳號授權範圍</div></div>
-      <div class="tool-card"><div class="tool-name">NotebookLM</div><div class="tool-desc">私人讀書機器人，上傳資料幫你消化。適合：整理教材、考試複習。</div><div class="tool-warn">⚠ 上傳前確認無個人隱私資料</div></div>
-      <div class="tool-card"><div class="tool-name">Claude</div><div class="tool-desc">邏輯最強，像嚴謹的學長姐。適合：長篇分析、複雜規劃。</div><div class="tool-warn">⚠ 設定裡可關閉對話訓練功能</div></div>
-    </div>
-    <div class="script-box" style="margin-top:10px">沒有最好的工具，只有最適合你當下需求的工具。但不管用哪個——敏感的個人資料，一律不要輸入。</div>`
-  },
-  {
-    title:"溫度與家庭：情境講稿",
-    content:`<div class="script-box">我想說一個我親身遇到的故事。有一次我去拜訪一個客戶，他是一個 40 幾歲的工程師，收入不錯，投資組合做得很好。但他問了我一個問題，讓我很久都忘不了。<br><br>他說：「芸琪，我算過了，我退休是沒問題的。但我不確定，我爸媽老了，我要怎麼辦？」<br><br>他的財務計畫裡，沒有算進父母。不是他不孝，是他從來沒有想過要問他爸媽：「你們有什麼計畫嗎？你們的存款夠嗎？」<br><br>很多時候，我們用 AI 做了完整的財務規劃，但忘了跟最重要的人說一聲。<br><br>我希望你今天回家，可以問問你的爸爸媽媽一個問題：「你們有沒有什麼擔心的事？」<br><br>這不是理財，這是溫度。這才是真正的財務規劃。</div>`
-  }
-];
-
-const ktEl = document.getElementById('kt');
-keyTeachData.forEach(k => {
-  const div = document.createElement('div');
-  div.className = 'key-box';
-  div.innerHTML = `<div class="key-box-title">${k.title}</div>${k.content}`;
-  ktEl.appendChild(div);
-});
-
-const prompts = [
-  {
-    num:"Prompt 01", title:"消費結構分析",
-    text:`背景：我是大一學生，目前沒有固定收入，生活費靠家裡。
-任務：請幫我分析上個月的消費結構：伙食 3500、交通 800、娛樂 600、衣物 1200、其他 900。
-限制：請用簡單的語言，我沒有財務基礎，不要用太多專有名詞。
-風格：像朋友說話的語氣，條列式說明，並給我 2-3 個具體可執行的建議。`
-  },
-  {
-    num:"Prompt 02", title:"存錢目標規劃",
-    text:`背景：我是 20 歲大一學生，每月生活費約 8000 元，打工收入 6000 元，家裡給 4000 元。
-任務：我想在 12 個月內存到 30,000 元用來出國旅遊，請幫我設計可執行的存錢計畫。
-限制：不要建議我投資，我只想先學存錢；計畫要實際可行，不要太理想化。
-風格：用說話的語氣，幫我列出每個月的行動步驟。`
-  },
-  {
-    num:"Prompt 03", title:"人生財務藍圖初稿",
-    text:`背景：我是 20 歲的大一學生，主修資訊工程，未來想從事 AI 相關工作，預計月薪 4-6 萬。
-任務：請幫我規劃 20-30 歲的財務藍圖，包含緊急備用金目標、保險需求、存款規劃、投資入門。
-限制：我現在沒有收入，只有零用錢，不要給太複雜的投資策略；請考慮台灣的生活環境。
-風格：條列式、簡單易懂，像在跟朋友說話，每個項目給一個具體的數字目標。`
-  }
-];
-
-const ptEl = document.getElementById('pt');
-prompts.forEach(p => {
-  const div = document.createElement('div');
-  div.className = 'prompt-card';
-  div.innerHTML = `
-    <div class="prompt-num">${p.num}</div>
-    <div class="prompt-title">${p.title}</div>
-    <div class="prompt-text">${p.text}</div>
-    <button class="copy-btn" onclick="copyText(this,\`${p.text.replace(/`/g,'\\`')}\`)">複製 Prompt ↗</button>`;
-  ptEl.appendChild(div);
-});
-
-function copyText(btn,text) {
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = '已複製 ✓';
-    setTimeout(() => btn.textContent = '複製 Prompt ↗', 2000);
-  });
+function toggle(el){
+  el.classList.toggle("open");
 }
-
-const endings = [
-  {
-    type:"理性版", cls:"type-logic",
-    text:"今天我們做了三件事：第一，你了解了 AI 在財務規劃的應用；第二，你親手操作了兩個真實的 Prompt，學會了人生組合拳公式；第三，你知道了理財跟投資的根本差異。這三件事，你今天帶回去，就已經贏過 80% 沒有開始的人了。下一步：掃碼領 PDF，回去選一個目標，存第一筆錢。"
-  },
-  {
-    type:"感性版", cls:"type-warm",
-    text:"我希望你記得今天有一個時刻——可能是那個數字讓你嚇到，可能是那道考古題讓你停下來想了一下，可能是想到了你的爸爸媽媽。那個感覺，就是你跟自己財務人生的第一次真正的對話。不是因為你要變成有錢人，而是因為你值得一個有選擇的未來。謝謝你今天願意來，謝謝你認真聽。"
-  },
-  {
-    type:"行動版", cls:"type-action",
-    text:"好，最後 30 秒，我要你做一件事。拿起手機，做兩個動作：第一，掃碼加 LINE@，傳「講義」領今天的 PDF；第二，在備忘錄寫下：我今天要做的第一步是什麼？只要一步就夠了。今天不做，明天也不會做。你準備好了嗎？現在開始。"
-  }
-];
-
-const enEl = document.getElementById('en');
-endings.forEach(e => {
-  const div = document.createElement('div');
-  div.className = 'ending-card';
-  div.innerHTML = `<span class="ending-type ${e.cls}">${e.type}</span><div class="ending-text">${e.text}</div>`;
-  enEl.appendChild(div);
-});
 </script>
+
+</body>
+</html>
