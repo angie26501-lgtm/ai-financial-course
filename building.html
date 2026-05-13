@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>馥芸財富學苑｜架構中，敬請期待</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(196, 167, 106, 0.22), transparent 28%),
+        radial-gradient(circle at 85% 80%, rgba(96, 135, 112, 0.24), transparent 32%),
+        linear-gradient(135deg, #f7f4ed 0%, #eef3ee 45%, #e6ebe5 100%);
+      color: #1f2d27;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 980px;
+      min-height: 620px;
+      border-radius: 36px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 70px rgba(38, 61, 49, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      position: relative;
+      overflow: hidden;
+      padding: 56px 42px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: rgba(196, 167, 106, 0.18);
+      top: -120px;
+      right: -110px;
+    }
+
+    .page::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: rgba(75, 113, 92, 0.16);
+      bottom: -100px;
+      left: -90px;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(196, 167, 106, 0.32);
+      color: #4b715c;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      margin-bottom: 32px;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4b715c, #c4a76a);
+      box-shadow: 0 0 18px rgba(196, 167, 106, 0.8);
+    }
+
+    h1 {
+      font-size: clamp(40px, 7vw, 78px);
+      line-height: 1.15;
+      letter-spacing: 3px;
+      color: #25382f;
+      margin-bottom: 24px;
+      font-weight: 900;
+    }
+
+    .gold {
+      color: #b89550;
+    }
+
+    .subtitle {
+      font-size: clamp(18px, 2.5vw, 25px);
+      color: #52675b;
+      line-height: 1.8;
+      max-width: 780px;
+      margin: 0 auto 34px;
+      font-weight: 500;
+    }
+
+    .message {
+      display: inline-block;
+      padding: 16px 26px;
+      border-radius: 20px;
+      background: rgba(75, 113, 92, 0.09);
+      border: 1px solid rgba(75, 113, 92, 0.16);
+      color: #385746;
+      font-size: 17px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      max-width: 760px;
+      margin: 0 auto 42px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(196, 167, 106, 0.22);
+      border-radius: 24px;
+      padding: 22px 16px;
+      box-shadow: 0 12px 28px rgba(38, 61, 49, 0.08);
+    }
+
+    .icon {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #2f4b3c;
+      margin-bottom: 8px;
+    }
+
+    .card-text {
+      font-size: 14px;
+      color: #66766c;
+      line-height: 1.6;
+    }
+
+    .button-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 168px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 16px;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4b715c, #2f4b3c);
+      color: white;
+      box-shadow: 0 14px 28px rgba(47, 75, 60, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(47, 75, 60, 0.34);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.82);
+      color: #4b715c;
+      border: 1px solid rgba(75, 113, 92, 0.22);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      background: white;
+    }
+
+    .footer {
+      margin-top: 34px;
+      color: #7a867e;
+      font-size: 13px;
+      letter-spacing: 0.6px;
+    }
+
+    .shine {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.9), transparent 62%);
+      top: 80px;
+      left: 80px;
+      opacity: 0.55;
+      animation: float 5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(18px);
+      }
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding: 18px;
+      }
+
+      .page {
+        min-height: auto;
+        padding: 46px 22px;
+        border-radius: 28px;
+      }
+
+      .brand {
+        font-size: 13px;
+        margin-bottom: 26px;
+      }
+
+      h1 {
+        letter-spacing: 1px;
+        font-size: clamp(34px, 11vw, 52px);
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .message {
+        font-size: 16px;
+        padding: 15px 18px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .shine {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="shine"></div>
+
+    <section class="content">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        馥芸財富學苑
+      </div>
+
+      <h1>架構中，<span class="gold">敬請期待</span></h1>
+
+      <p class="subtitle">
+        馥芸財富學苑網站正在架構中。<br>
+        我們正在整理課程入口、學習資源與實用工具，讓每一次進入，都能更清楚、更有方向。
+      </p>
+
+      <div class="message">
+        新頁面即將上線，更多課程、工具與資源整理中。<br>
+        謝謝你的等待，也謝謝你願意一起走在成長的路上。
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon">💰</div>
+          <div class="card-title">財務規劃</div>
+          <div class="card-text">整理金錢流向，建立安心感與選擇權。</div>
+        </div>
+
+        <div class="card">
+          <div class="icon">🤖</div>
+          <div class="card-title">AI賦能</div>
+          <div class="card-text">用工具提升效率，讓專業更容易被看見。</div>
+        </div>
+
+        <div class="card">
+          <div class="icon">🌿</div>
+          <div class="card-title">生活富足</div>
+          <div class="card-text">從財務、身心到人生，打造更穩定的自己。</div>
+        </div>
+      </div>
+
+      <div class="button-wrap">
+        <a class="btn btn-primary" href="https://lin.ee/yBVjjlK" target="_blank">加入官方 LINE</a>
+        <a class="btn btn-secondary" href="https://forms.gle/3x9vitntgfK9ap6A8" target="_blank">預約 AI 免費課程</a>
+      </div>
+
+      <div class="footer">
+        © 馥芸財富學苑｜財顧芸 Angie Chen
+      </div>
+    </section>
+  </main>
+</body>
+</html>
